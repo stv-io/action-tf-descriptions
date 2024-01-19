@@ -43,5 +43,5 @@ jobs:
         with:
           recreate: true
           message: |
-            Test pass exited with code ${{ needs.passing-test.outputs.exitcode }}
-            Test fail exited with code ${{ needs.failing-test.outputs.exitcode }}
+            Test _pass_ exited with code **${{ needs.passing-test.outputs.exitcode }}**
+            Test _fail_ exited with code **${{ needs.failing-test.outputs.exitcode }}**
