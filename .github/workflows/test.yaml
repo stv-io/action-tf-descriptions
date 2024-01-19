@@ -5,19 +5,42 @@ on:
     branches:
       - main
 
+permissions:
+  pull-requests: write
+
 jobs:
   test-descriptions-checker-passing:
     runs-on: ubuntu-latest
+    outputs:
+      status: ${{ steps.test-passing.outputs.status }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./
+        id: test-passing
+        continue-on-error: false
         with:
           path: "test/passing"
+
   test-descriptions-checker-failing:
     runs-on: ubuntu-latest
+    outputs:
+      status: ${{ steps.test-failing.outputs.status }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./
+        id: test-failing
         continue-on-error: true
         with:
           path: "test/failing"
+
+  report-to-pr:
+    runs-on: ubuntu-latest
+    needs:
+      - test-descriptions-checker-passing
+      - test-descriptions-checker-failing    
+    steps:      
+      - uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          message: |
+            Test pass exited with code ${{ needs.test-descriptions-checker-passing.outputs.status }}
+            Test fail exited with code ${{ needs.test-descriptions-checker-failing.outputs.status }}

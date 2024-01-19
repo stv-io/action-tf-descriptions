@@ -10,6 +10,11 @@ inputs:
     required: true
     default: '.'
 
+outputs:
+  exitcode:
+    description: "The exitcode of the action"
+    value: ${{ steps.run-checker.outputs.exitcode }}
+
 runs:
   using: composite
   steps:
@@ -23,12 +28,14 @@ runs:
     - uses: actions/setup-python@v5
       with:
         python-version: '3.10' 
-    - name: install
+    - name: run-checker
       shell: bash
       run: | 
         pip install -r requirements.txt        
         python src/run.py ${{ inputs.path }}
-
+        exitcode="$?"
+        echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
+        exit "$exitcode"
 branding:
   color: green
   icon: box
