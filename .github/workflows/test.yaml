@@ -12,7 +12,7 @@ jobs:
   test-descriptions-checker-passing:
     runs-on: ubuntu-latest
     outputs:
-      status: ${{ steps.test-passing.outputs.status }}
+      exitcode: ${{ steps.test-passing.outputs.exitcode }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./
@@ -24,7 +24,7 @@ jobs:
   test-descriptions-checker-failing:
     runs-on: ubuntu-latest
     outputs:
-      status: ${{ steps.test-failing.outputs.status }}
+      exitcode: ${{ steps.test-failing.outputs.exitcode }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./
@@ -42,5 +42,5 @@ jobs:
       - uses: marocchino/sticky-pull-request-comment@v2
         with:
           message: |
-            Test pass exited with code ${{ needs.test-descriptions-checker-passing.outputs.status }}
-            Test fail exited with code ${{ needs.test-descriptions-checker-failing.outputs.status }}
+            Test pass exited with code ${{ needs.test-descriptions-checker-passing.outputs.exitcode }}
+            Test fail exited with code ${{ needs.test-descriptions-checker-failing.outputs.exitcode }}
