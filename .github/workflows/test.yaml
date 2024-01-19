@@ -9,7 +9,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  test-descriptions-checker-passing:
+  passing-test:
     runs-on: ubuntu-latest
     outputs:
       exitcode: ${{ steps.test-passing.outputs.exitcode }}
@@ -21,7 +21,7 @@ jobs:
         with:
           path: "test/passing"
 
-  test-descriptions-checker-failing:
+  failing-test:
     runs-on: ubuntu-latest
     outputs:
       exitcode: ${{ steps.test-failing.outputs.exitcode }}
@@ -36,11 +36,12 @@ jobs:
   report-to-pr:
     runs-on: ubuntu-latest
     needs:
-      - test-descriptions-checker-passing
-      - test-descriptions-checker-failing    
-    steps:      
+      - passing-test
+      - failing-test
+    steps:
       - uses: marocchino/sticky-pull-request-comment@v2
         with:
+          hide: true
           message: |
-            Test pass exited with code ${{ needs.test-descriptions-checker-passing.outputs.exitcode }}
-            Test fail exited with code ${{ needs.test-descriptions-checker-failing.outputs.exitcode }}
+            Test pass exited with code ${{ needs.passing-test.outputs.exitcode }}
+            Test fail exited with code ${{ needs.failing-test.outputs.exitcode }}
