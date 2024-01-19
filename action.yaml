@@ -1,0 +1,34 @@
+name: Terraform variable and output descriptions checker
+
+author: Stephen Attard
+
+description: Check that all variables and outputs have descriptions in your terraform code
+
+inputs:
+  path:
+    description: 'Path to the terraform code'
+    required: true
+    default: '.'
+
+runs:
+  using: composite
+  steps:
+    - name: Check Runner OS
+      if: ${{ runner.os != 'Linux' }}
+      shell: bash
+      run: |
+        echo "::error title=⛔ error hint::This action is only supported on Linux Runners"
+        exit 1
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.10' 
+    - name: install
+      shell: bash
+      run: | 
+        pip install -r requirements.txt        
+        python src/run.py ${{ inputs.path }}
+
+branding:
+  color: green
+  icon: box
