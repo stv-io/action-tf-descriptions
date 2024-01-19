@@ -41,7 +41,7 @@ jobs:
     steps:
       - uses: marocchino/sticky-pull-request-comment@v2
         with:
-          hide: true
+          recreate: true
           message: |
             Test pass exited with code ${{ needs.passing-test.outputs.exitcode }}
             Test fail exited with code ${{ needs.failing-test.outputs.exitcode }}

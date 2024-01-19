@@ -42,5 +42,5 @@ def process_tf_files(directory="."):
 
 if __name__ == "__main__":
     tf_path = sys.argv[1]
-    print("\n\n Checking for missing descriptions in Terraform files...\n")
+    print("\n\nChecking for missing descriptions in Terraform files...\n")
     process_tf_files(tf_path)

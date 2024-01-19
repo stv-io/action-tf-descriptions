@@ -29,9 +29,10 @@ runs:
       with:
         python-version: '3.10'
     - name: run-checker
+      id: run-checker
       shell: bash
       run: |
-        pip install --upgrade pip
+        pip install --quiet --upgrade pip
         pip install --quiet -r requirements.txt
         set +e
         python src/run.py ${{ inputs.path }}
