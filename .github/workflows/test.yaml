@@ -15,7 +15,8 @@ jobs:
       exitcode: ${{ steps.test-passing.outputs.exitcode }}
     steps:
       - uses: actions/checkout@v4
-      - uses: ./
+      - name: "Run tests from this commit"
+        uses: ./
         id: test-passing
         continue-on-error: false
         with:
@@ -27,7 +28,8 @@ jobs:
       exitcode: ${{ steps.test-failing.outputs.exitcode }}
     steps:
       - uses: actions/checkout@v4
-      - uses: ./
+      - name: "Run tests from this commit"
+        uses: ./
         id: test-failing
         continue-on-error: true
         with:
