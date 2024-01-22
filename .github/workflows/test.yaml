@@ -9,7 +9,7 @@ on:
 #   pull-requests: write
 
 jobs:
-  test-all-scerarios:
+  test-scenarios:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -17,27 +17,18 @@ jobs:
           - passing
           - failing-missing
           - failing-non-unique
-    # outputs:
-    #   exitcode: ${{ steps.test-passing.outputs.exitcode }}
+    outputs:
+      exitcode: ${{ steps.test-passing.outputs.exitcode }}
     steps:
       - uses: actions/checkout@v4
-      - name: "Test all scenarios from this version"
+      - name: "Run test in directory test/${{ matrix.type }}"
         uses: ./
         id: test-passing
         continue-on-error: true
         with:
           path: "test/${{ matrix.type }}"
-
-
-  # report-to-pr:
-  #   runs-on: ubuntu-latest
-  #   needs:
-  #     - passing-test
-  #     - failing-test
-  #   steps:
-  #     - uses: marocchino/sticky-pull-request-comment@v2
-  #       with:
-  #         recreate: true
-  #         message: |
-  #           Test _pass_ exited with code **${{ needs.passing-test.outputs.exitcode }}**
-  #           Test _fail_ exited with code **${{ needs.failing-test.outputs.exitcode }}**
+      - uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          recreate: true
+          message: |
+            Test in directory test/${{ matrix.type }} exited with code **${{ steps.test-passing.outputs.exitcode }}**
