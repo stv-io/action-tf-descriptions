@@ -5,45 +5,51 @@ on:
     branches:
       - main
 
-permissions:
-  pull-requests: write
+# permissions:
+#   pull-requests: write
 
 jobs:
-  passing-test:
+  test-all-scerarios:
     runs-on: ubuntu-latest
-    outputs:
-      exitcode: ${{ steps.test-passing.outputs.exitcode }}
+    strategy:
+      matrix:
+        type: 
+          - passing
+          - failing-missing
+          - failing-non-unique
+    # outputs:
+    #   exitcode: ${{ steps.test-passing.outputs.exitcode }}
     steps:
       - uses: actions/checkout@v4
-      - name: "Run tests from this commit"
+      - name: "Test all scenarios from this version"
         uses: ./
         id: test-passing
         continue-on-error: false
         with:
-          path: "test/passing"
+          path: "test/${{ matrix.type }}"
 
-  failing-test:
-    runs-on: ubuntu-latest
-    outputs:
-      exitcode: ${{ steps.test-failing.outputs.exitcode }}
-    steps:
-      - uses: actions/checkout@v4
-      - name: "Run tests from this commit"
-        uses: ./
-        id: test-failing
-        continue-on-error: true
-        with:
-          path: "test/failing"
+  # failing-test:
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     exitcode: ${{ steps.test-failing.outputs.exitcode }}
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - name: "Run tests from this commit"
+  #       uses: ./
+  #       id: test-failing
+  #       continue-on-error: true
+  #       with:
+  #         path: "test/failing"
 
-  report-to-pr:
-    runs-on: ubuntu-latest
-    needs:
-      - passing-test
-      - failing-test
-    steps:
-      - uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          recreate: true
-          message: |
-            Test _pass_ exited with code **${{ needs.passing-test.outputs.exitcode }}**
-            Test _fail_ exited with code **${{ needs.failing-test.outputs.exitcode }}**
+  # report-to-pr:
+  #   runs-on: ubuntu-latest
+  #   needs:
+  #     - passing-test
+  #     - failing-test
+  #   steps:
+  #     - uses: marocchino/sticky-pull-request-comment@v2
+  #       with:
+  #         recreate: true
+  #         message: |
+  #           Test _pass_ exited with code **${{ needs.passing-test.outputs.exitcode }}**
+  #           Test _fail_ exited with code **${{ needs.failing-test.outputs.exitcode }}**

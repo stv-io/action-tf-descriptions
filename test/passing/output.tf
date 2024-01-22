@@ -1,9 +1,9 @@
-output "output1" {
+output "an_output_with_description" {
   value       = "bar"
-  description = "value"
+  description = "Some description which makes sense"
 }
 
-output "output2" {
+output "another_output_with_description" {
   value       = "bar"
-  description = "value"
+  description = "Another description which makes sense"
 }

@@ -2,7 +2,7 @@ name: Terraform variable and output descriptions checker
 
 author: Stephen Attard
 
-description: Check that all variables and outputs have descriptions in your terraform code
+description: Check that all variables and outputs objects have descriptions in your terraform code
 
 inputs:
   path:
