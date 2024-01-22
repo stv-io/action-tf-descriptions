@@ -1,0 +1,34 @@
+name: Testing descriptions checker
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  pull-requests: write
+
+jobs:
+  test-scenarios:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        type: 
+          - passing
+          - failing-missing
+          - failing-non-unique
+    outputs:
+      exitcode: ${{ steps.test-passing.outputs.exitcode }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: "Run test in directory test/${{ matrix.type }}"
+        uses: ./
+        id: test-passing
+        continue-on-error: true
+        with:
+          path: "test/${{ matrix.type }}"
+      - uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          recreate: true
+          message: |
+            Test in directory [test/${{ matrix.type }}](https://github.com/stv-io/action-tf-descriptions/tree/${{ github.ref_name }}/test/${{ matrix.type }}) exited with code **${{ steps.test-passing.outputs.exitcode }}**
