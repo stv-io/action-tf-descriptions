@@ -35,9 +35,9 @@ runs:
         pip install --quiet --upgrade pip
         pip install --quiet python-hcl2==4.3.2
         set +e
-        python src/run.py ${{ inputs.path }}
+        curl https://raw.githubusercontent.com/stephenattard/terraform-variable-and-output-descriptions-checker/${{ github.sha }}/src/run.py --output ${{ runner.temp }}/checker.py
+        python ${{ runner.temp }}/checker.py ${{ inputs.path }}
         exitcode="$?"
-        echo "exitcode=$exitcode"
         echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
         exit "$exitcode"
 branding:
