@@ -8,7 +8,7 @@ Until this discusson and feature by [tflint](https://github.com/terraform-linter
 
 ## Usage
 
-To use tfswitch github action, configure a YAML workflow file, e.g.
+To use this action in your workflow, checkout your terraform, and configure the action with the path where your `.tf` files are
 
 ```yaml
 jobs:
@@ -16,8 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: Setup tfswitch
-      uses: stv-io/action-tf-descriptions@v1
+    - uses: stv-io/action-tf-descriptions@v1
     - run: |
       with:
         path: "path/to/terraform"
