@@ -7,14 +7,12 @@ duplicate_descriptions = []
 descriptions_found = {}
 descriptions_found["variable"] = []
 descriptions_found["output"] = []
-failing = False
 
 
 def parse_tf_file(file_path):
     with open(file_path, "r") as file:
         content = file.read()
         parsed_hcl = hcl2.loads(content)
-        print(f"Parsing HCL from {file_path}")
         return parsed_hcl
 
 
@@ -35,7 +33,8 @@ def check_descriptions(parsed_hcl, file_path):
 
 
 def validate_descriptions(descriptions_found, missing_descriptions):
-    print(f"\n\ndescriptions_found: {descriptions_found}")
+    failing = False
+    # print(f"\n\ndescriptions_found: {descriptions_found}")
     for block_type, descriptions in descriptions_found.items():
         unique_descriptions = set()
         duplicate_descriptions = set()
@@ -52,7 +51,7 @@ def validate_descriptions(descriptions_found, missing_descriptions):
                 print(f"  - {description}")
             failing = True
 
-    print(f"\n\nmissing_descriptions: {missing_descriptions}\n\n")
+    # print(f"\n\nmissing_descriptions: {missing_descriptions}\n\n")
     if missing_descriptions:
         print("Error - Missing descriptions found:")
         for missing_description in missing_descriptions:
@@ -72,7 +71,7 @@ def process_tf_files(directory):
     for filename in os.listdir(directory):
         if filename.endswith(".tf"):
             file_path = os.path.join(directory, filename)
-            print(f"Processing {file_path}...")
+            # print(f"Processing {file_path}...")
             parsed_hcl = parse_tf_file(file_path)
             descriptions_found, missing_descriptions = check_descriptions(
                 parsed_hcl, file_path
@@ -85,6 +84,6 @@ def process_tf_files(directory):
 if __name__ == "__main__":
     tf_path = sys.argv[1]
     print(
-        f"\nChecking for missing and duplicate descriptions in Terraform files in {tf_path}...\n"
+        f"\nChecking for missing and duplicate descriptions in Terraform files in '{tf_path}' ..\n"
     )
     process_tf_files(tf_path)

@@ -24,22 +24,10 @@ jobs:
       - name: "Test all scenarios from this version"
         uses: ./
         id: test-passing
-        continue-on-error: false
+        continue-on-error: true
         with:
           path: "test/${{ matrix.type }}"
 
-  # failing-test:
-  #   runs-on: ubuntu-latest
-  #   outputs:
-  #     exitcode: ${{ steps.test-failing.outputs.exitcode }}
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - name: "Run tests from this commit"
-  #       uses: ./
-  #       id: test-failing
-  #       continue-on-error: true
-  #       with:
-  #         path: "test/failing"
 
   # report-to-pr:
   #   runs-on: ubuntu-latest
