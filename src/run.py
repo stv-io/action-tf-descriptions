@@ -34,7 +34,6 @@ def check_descriptions(parsed_hcl, file_path):
 
 def validate_descriptions(descriptions_found, missing_descriptions):
     failing = False
-    # print(f"\n\ndescriptions_found: {descriptions_found}")
     for block_type, descriptions in descriptions_found.items():
         unique_descriptions = set()
         duplicate_descriptions = set()
@@ -46,14 +45,12 @@ def validate_descriptions(descriptions_found, missing_descriptions):
                 unique_descriptions.add(description)
 
         if duplicate_descriptions:
-            print(f"Error - Duplicate descriptions found in {block_type} blocks:")
+            print(f"Error - Duplicate descriptions found in {block_type} block:")
             for description in duplicate_descriptions:
-                print(f"  - {description}")
+                print(f"  - '{description}'")
             failing = True
-
-    # print(f"\n\nmissing_descriptions: {missing_descriptions}\n\n")
     if missing_descriptions:
-        print("Error - Missing descriptions found:")
+        print("Error - Missing descriptions:")
         for missing_description in missing_descriptions:
             print(
                 f"  - Type: {missing_description['type']}, Name: {missing_description['name']}, File: {missing_description['file']}"
@@ -68,16 +65,15 @@ def validate_descriptions(descriptions_found, missing_descriptions):
 
 
 def process_tf_files(directory):
+    descriptions_found = {}
+    missing_descriptions = []
     for filename in os.listdir(directory):
         if filename.endswith(".tf"):
             file_path = os.path.join(directory, filename)
-            # print(f"Processing {file_path}...")
             parsed_hcl = parse_tf_file(file_path)
             descriptions_found, missing_descriptions = check_descriptions(
                 parsed_hcl, file_path
             )
-        # else:
-        #     print(f"Missed {filename}...")
     validate_descriptions(descriptions_found, missing_descriptions)
 
 

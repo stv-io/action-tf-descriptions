@@ -2,6 +2,11 @@
 
 A github action to check the outputs and variables defined for defined, and unique, descriptions.
 
+References:
+
+- <https://developer.hashicorp.com/terraform/language/values/variables#input-variable-documentation>
+- <https://developer.hashicorp.com/terraform/language/values/outputs#description-output-value-documentation>
+
 ## Why
 
 Until this discusson and feature by [tflint](https://github.com/terraform-linters/tflint) is implemented - <https://github.com/terraform-linters/tflint-ruleset-terraform/discussions/112>
@@ -22,9 +27,12 @@ jobs:
         path: "path/to/terraform"
 ```
 
-## TODO
+## Local testing
 
-Docs
-Test this from another project
-Releases
-Publish to market place
+Note - these same tests are asserted in the action's own checks
+
+```console
+python src/run.py test/passing/
+python src/run.py test/failing-missing/
+python src/run.py test/failing-non-unique/
+```

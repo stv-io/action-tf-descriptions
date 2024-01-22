@@ -35,7 +35,6 @@ runs:
         pip install --quiet --upgrade pip
         pip install --quiet python-hcl2==4.3.2
         set +e
-        curl $url --output ${{ runner.temp }}/checker.py
         python ${{ github.action_path }}/src/run.py ${{ inputs.path }}
         exitcode="$?"
         echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
