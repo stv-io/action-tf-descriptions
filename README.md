@@ -21,15 +21,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - uses: stv-io/action-tf-descriptions@v1
-    - run: |
+    - uses: stv-io/action-tf-descriptions@v0.1.0
       with:
         path: "path/to/terraform"
 ```
 
+In the case of a mono-repo, this can be executed in parallel, pasing the path using the [matrix strategy](https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs)
+
+```yaml
+jobs:
+  check-for-valid-descriptions:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        path:
+          - /path/one
+          - /path/two
+          # - ..
+    steps:
+    - uses: actions/checkout@v4
+    - uses: stv-io/action-tf-descriptions@v0.1.0
+      with:
+        path: "${{ matrix.path }}"
+```
+
 ## Local testing
 
-Note - these same tests are asserted in the action's own checks
+Note - these same tests are asserted in the action's own checks, with an output of the status to a PR comment.
 
 ```console
 python src/run.py test/passing/
