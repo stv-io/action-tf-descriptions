@@ -33,7 +33,7 @@ runs:
       shell: bash
       run: |
         pip install --quiet --upgrade pip
-        pip install --quiet -r requirements.txt
+        pip install --quiet python-hcl2==4.3.2
         set +e
         python src/run.py ${{ inputs.path }}
         exitcode="$?"
