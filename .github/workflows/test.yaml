@@ -31,4 +31,4 @@ jobs:
         with:
           recreate: true
           message: |
-            Test in directory test/${{ matrix.type }} exited with code **${{ steps.test-passing.outputs.exitcode }}**
+            Test in directory [test/${{ matrix.type }}](https://github.com/stv-io/action-tf-descriptions/tree/${{ github.ref_name }}/test/${{ matrix.type }}) exited with code **${{ steps.test-passing.outputs.exitcode }}**
