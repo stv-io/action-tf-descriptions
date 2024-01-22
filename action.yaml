@@ -35,7 +35,7 @@ runs:
         pip install --quiet --upgrade pip
         pip install --quiet python-hcl2==4.3.2
         set +e
-        url="https://raw.githubusercontent.com/stephenattard/terraform-variable-and-output-descriptions-checker/${{ github.sha }}/src/run.py"
+        url="https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/src/run.py"
         echo "Downloading from $url"
         curl $url --output ${{ runner.temp }}/checker.py
         python ${{ runner.temp }}/checker.py ${{ inputs.path }}
